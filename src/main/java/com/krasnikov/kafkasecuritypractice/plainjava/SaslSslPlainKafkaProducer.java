@@ -31,7 +31,7 @@ public class SaslSslPlainKafkaProducer {
                         "username=\"user\" password=\"user-secret\";");
 
         // SSL-сертификаты
-        //TO DO: Создать общай truststore со всеми сертификатами брокера.
+        //TO DO: Создать общий truststore со всеми сертификатами брокера.
         props.put(SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG, "kafka-1-creds/certs/kafka-1.truststore.jks");
         props.put(SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG, "your-password");
         props.put(SslConfigs.SSL_KEYSTORE_LOCATION_CONFIG, "kafka-1-creds/certs/kafka-1.keystore.jks");
