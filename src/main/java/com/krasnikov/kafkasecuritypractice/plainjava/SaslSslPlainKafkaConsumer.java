@@ -1,4 +1,4 @@
-package com.krasnikov.kafkasecuritypractice;
+package com.krasnikov.kafkasecuritypractice.plainjava;
 
 import org.apache.kafka.clients.CommonClientConfigs;
 import org.apache.kafka.clients.consumer.ConsumerConfig;

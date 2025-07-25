@@ -1,4 +1,4 @@
-package com.krasnikov.kafkasecuritypractice;
+package com.krasnikov.kafkasecuritypractice.plainjava;
 
 import org.apache.kafka.clients.CommonClientConfigs;
 import org.apache.kafka.clients.producer.KafkaProducer;
@@ -18,7 +18,6 @@ public class SaslSslPlainKafkaProducer {
 
     public static void main(String[] args) {
 
-        // Конфигурация Kafka Producer
         Properties props = new Properties();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9094,localhost:9194,localhost:9294");
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
@@ -42,7 +41,6 @@ public class SaslSslPlainKafkaProducer {
 
         try (KafkaProducer<String, String> producer = new KafkaProducer<>(props)) {
 
-            // Отправим сообщения в оба топика
             ProducerRecord<String, String> record1 = new ProducerRecord<>("topic-1", "key1", "Сообщение в topic-1");
             ProducerRecord<String, String> record2 = new ProducerRecord<>("topic-2", "key2", "Сообщение в topic-2");
 

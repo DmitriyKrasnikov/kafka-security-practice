@@ -1,4 +1,4 @@
-package com.krasnikov.kafkasecuritypractice;
+package com.krasnikov.kafkasecuritypractice.springBoot;
 
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;

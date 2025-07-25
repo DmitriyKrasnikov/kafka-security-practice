@@ -1,4 +1,3 @@
-#Полный рабочий вариант
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:7.4.4
@@ -46,8 +45,8 @@ services:
       - data-kafka-1:/var/lib/kafka/data
       - ./kafka-1-creds/sasl:/etc/kafka/jaas
       - ./kafka-1-creds/certs:/etc/kafka/secrets
-      - ./kafka-1-creds/client.properties:/etc/kafka/client.properties
-      - ./kafka-1-creds/user.properties:/etc/kafka/user.properties
+      - ./client.properties:/etc/kafka/client.properties
+      - ./user.properties:/etc/kafka/user.properties
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
@@ -77,7 +76,6 @@ services:
       KAFKA_SSL_TRUSTSTORE_FILENAME: kafka-1.truststore.jks
       KAFKA_SSL_TRUSTSTORE_CREDENTIALS: kafka-1_truststore_creds
       KAFKA_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM: https
-      # KAFKA_OPTS: "-Djavax.net.debug=all"
 
       #Настройки ACL
       KAFKA_AUTHORIZER_CLASS_NAME: "kafka.security.authorizer.AclAuthorizer"
@@ -108,27 +106,18 @@ services:
       KAFKA_DELETE_TOPIC_ENABLE: true
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
-      # Слушаем на всех интерфейсах: PLAINTEXT и SASL_SSL
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9192,INTERNAL_SASL_SSL://0.0.0.0:9193,EXTERNAL_SASL_SSL://0.0.0.0:9194
-      # Анонсируем адреса для клиентов
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-2:9192,INTERNAL_SASL_SSL://kafka-2:9193,EXTERNAL_SASL_SSL://localhost:9194
 
-      # Протоколы безопасности для каждого listener-а
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,INTERNAL_SASL_SSL:SASL_SSL,EXTERNAL_SASL_SSL:SASL_SSL
-      # Требуем клиентский сертификат при TLS
       KAFKA_SSL_CLIENT_AUTH: 'required'
 
-      # Меж-брокерное соединение по PLAINTEXT (между kafka-1 и kafka-2)
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
 
-      # SASL/PLAIN для внешних клиентов (все на SASL_SSL)
       KAFKA_SASL_ENABLED_MECHANISMS: PLAIN
-      # Super-user для администрирования
       KAFKA_SUPER_USERS: "User:admin"
-      # JAAS-конфиг для брокера
       KAFKA_OPTS: "-Djava.security.auth.login.config=/etc/kafka/jaas/kafka_server_jaas.conf"
 
-      # SSL/TLS — все соединения на SASL_SSL
       KAFKA_SSL_KEYSTORE_FILENAME: kafka-2.keystore.jks
       KAFKA_SSL_KEYSTORE_CREDENTIALS: kafka-2_keystore_creds
       KAFKA_SSL_KEY_CREDENTIALS: kafka-2_sslkey_creds
@@ -137,7 +126,6 @@ services:
       KAFKA_SSL_TRUSTSTORE_CREDENTIALS: kafka-2_truststore_creds
       KAFKA_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM: https
 
-      # Включаем ACL
       KAFKA_AUTHORIZER_CLASS_NAME: "kafka.security.authorizer.AclAuthorizer"
       KAFKA_ZOOKEEPER_SET_ACL: "true"
       KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "true"
@@ -166,23 +154,18 @@ services:
       KAFKA_DELETE_TOPIC_ENABLE: true
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
-      # Слушаем на всех интерфейсах
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9292,INTERNAL_SASL_SSL://0.0.0.0:9293,EXTERNAL_SASL_SSL://0.0.0.0:9294
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-3:9292,INTERNAL_SASL_SSL://kafka-3:9293,EXTERNAL_SASL_SSL://localhost:9294
 
-      # Протоколы безопасности
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,INTERNAL_SASL_SSL:SASL_SSL,EXTERNAL_SASL_SSL:SASL_SSL
       KAFKA_SSL_CLIENT_AUTH: 'required'
 
-      # Меж-брокерское соединение (если хочешь SASL_SSL — поменяй тут)
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
 
-      # SASL механизм
       KAFKA_SASL_ENABLED_MECHANISMS: PLAIN
       KAFKA_SUPER_USERS: "User:admin"
       KAFKA_OPTS: "-Djava.security.auth.login.config=/etc/kafka/jaas/kafka_server_jaas.conf"
 
-      # SSL конфиги
       KAFKA_SSL_KEYSTORE_FILENAME: kafka-3.keystore.jks
       KAFKA_SSL_KEYSTORE_CREDENTIALS: kafka-3_keystore_creds
       KAFKA_SSL_KEY_CREDENTIALS: kafka-3_sslkey_creds
@@ -191,11 +174,9 @@ services:
       KAFKA_SSL_TRUSTSTORE_CREDENTIALS: kafka-3_truststore_creds
       KAFKA_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM: https
 
-      # ACL настройки
       KAFKA_AUTHORIZER_CLASS_NAME: "kafka.security.authorizer.AclAuthorizer"
       KAFKA_ZOOKEEPER_SET_ACL: "true"
       KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "true"
-
 
 volumes:
   data-zookeeper-log-1:
@@ -203,7 +184,6 @@ volumes:
   data-kafka-1:
   data-kafka-2:
   data-kafka-3:
-
 
 networks:
   confluent:
